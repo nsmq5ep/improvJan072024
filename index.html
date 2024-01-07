@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .full-width {
+            margin-left: 20px;
+            margin-right: 20px;
+            display: grid;
+            grid-template-columns: repeat(10, auto);
+            grid-gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .full-width a {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Existing styles... */
+
+        /* Styling for the sort buttons */
+        button {
+            margin: 5px;
+            /* Add margin for spacing */
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Styling for the buttons */
+        .sort-button,
+        .back-button,
+        .sort-alpha-button {
+            position: fixed;
+            bottom: 20px;
+            transform: translateX(-50%);
+            padding: 10px;
+            border: none;
+            background-color: #d8f0ff;
+            color: blue
+        }
+
+        /* Styling for the "Sort Group1 and Group2" button */
+        .sort-button {
+            left: 34.5%;
+            /* background-color: green; */
+            /* color: white;  */
+        }
+
+        /* Styling for the "Random Backing Link" button */
+        .back-button {
+            left: 50%;
+            /* background-color: purple; */
+            /* color: white; */
+        }
+
+        /* Styling for the "Sort Alphabetically" button */
+        .sort-alpha-button {
+            left: 64%;
+            /* background-color: blue; */
+            /* color: white;  */
+        }
+    </style>
+</head>
+
+<body>
+    <footer>
+        <div class="container w3-row">
+            <div class="w3-col s12 m6 footer-links full-width" id="videoData">
+                <!-- Video links will be dynamically added here -->
+            </div>
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="readScript.js"></script>
+    <script src="putScript.js"></script>
+    <!-- Import new feature files -->
+    <script src="newFeature.js"></script>
+    <script src="mainFunctionality.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to fetch data using Ajax
+            function fetchDataWithAjax(url, successCallback, errorCallback) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: successCallback,
+                    error: errorCallback
+                });
+            }
+
+            // Function to process video data
+            function processVideoData(data) {
+                var items = [];
+
+                // Iterate over the videos in the JSON and create anchor tags
+                $.each(data.videos, function (key, val) {
+                    var link = '<a href="' + val.url + '" title="' + val.title + '">' + val.title + '</a>';
+                    items.push(link);
+                });
+
+                // Append the dynamically created anchor tags to the .footer-links div
+                $(".footer-links").append(items.join(""));
+
+                // Rest of the functionality
+                var group1 = [];
+                var group2 = [];
+
+                // Populate group1 and group2 dynamically based on anchor tags
+                $('.footer-links a').each(function () {
+                    var title = $(this).attr('title');
+                    if (title.includes('Backing')) {
+                        group1.push(title);
+                    } else if (title.endsWith('inor') || title.endsWith('ajor')) {
+                        group2.push(title);
+                    }
+                });
+
+                function sortGroup1AndGroup2() {
+                    group1.sort();
+                    group2.sort();
+                    renderSortedLinks();
+                }
+
+                function renderSortedLinks() {
+                    var linksContainer = $(".footer-links");
+                    var links = [];
+
+                    // Iterate over group1 and group2 to collect sorted links
+                    $.each(group1.concat(group2), function (i, title) {
+                        var link = linksContainer.find("a[title='" + title + "']");
+                        links.push(link);
+                    });
+
+                    // Append the sorted links to the container
+                    linksContainer.empty().append(links);
+                }
+
+                function sortLinksAlphabetically() {
+                    var linksContainer = $(".footer-links");
+                    var links = linksContainer.find("a");
+
+                    // Sort links alphabetically based on titles
+                    links.sort(function (a, b) {
+                        var titleA = $(a).attr("title").toUpperCase();
+                        var titleB = $(b).attr("title").toUpperCase();
+                        return titleA.localeCompare(titleB);
+                    });
+
+                    // Append the sorted links to the container
+                    linksContainer.empty().append(links);
+                }
+
+                // Create and append the button to the body for sorting group1 and group2
+                var sortButton = $('<button>')
+                    .text('Sort Group1 and Group2')
+                    .addClass('sort-button') // Add class for styling
+                    .click(function () {
+                        // Call the function when the button is clicked
+                        sortGroup1AndGroup2();
+                    });
+
+                $('body').append(sortButton);
+
+                // Create and append the "Sort Alphabetically" button
+                var sortButtonAlpha = $('<button>')
+                    .text('Sort Alphabetically')
+                    .addClass('sort-alpha-button') // Add class for styling
+                    .click(function () {
+                        // Call the function when the button is clicked
+                        sortLinksAlphabetically();
+                    });
+
+                $('body').append(sortButtonAlpha);
+
+                // Create and append the button to the body for opening random backing link
+                var backButton = $('<button>')
+                    .text('Random Backing Link (New Tab)')
+                    .addClass('back-button') // Add class for styling
+                    .click(function () {
+                        // Ensure group1 and group2 are populated before executing the code to prevent duplicate calls
+                        if (group1.length > 0 && group2.length > 0) {
+                            // Call the function when the button is clicked
+                            openRandomBackingLinkInNewTab();
+                        }
+                    });
+
+                $('body').append(backButton);
+
+
+                // Function to open a random backing link in a new tab
+                function openRandomBackingLinkInNewTab() {
+                    var backingLinks = $('.footer-links a[title*="Backing"]');
+                    if (backingLinks.length > 0) {
+                        // Loop to attempt to get a unique title
+                        while (true) {
+                            var titles = backingLinks.map(function () { return $(this).attr('title'); }).get();
+                            var title = getRandomTitle(titles);
+                            console.log('%c%s', 'color: #00e600', title);
+
+
+                            // Call the function from newFeature.js to check if the title is present
+                            if (window.checkIfTitlePresent(title)) {
+                                // If title is already present, generate a new random title and continue the loop
+                                continue;
+                            }
+
+                            // Open the random link from group1
+                            var group1Url = backingLinks.filter(function () { return $(this).attr('title') === title; }).attr('href');
+                            var winGroup1 = window.open(group1Url, '_blank');
+                            winGroup1.focus();
+
+                            // Open the corresponding link from group2 after 5 seconds
+                            setTimeout(function () {
+                                openCorrespondingLinkGroup2(title);
+                            }, 5000); // 5 seconds delay
+
+                            break; // Exit the loop since a unique title is found
+                        }
+                    }
+                }
+
+                // Function to open the corresponding link from group2
+                function openCorrespondingLinkGroup2(title) {
+                    var correspondingLinkGroup2 = findCorrespondingLinkGroup2(title);
+                    if (correspondingLinkGroup2) {
+                        var group2Url = $('.footer-links a[title="' + correspondingLinkGroup2 + '"]').attr('href');
+                        var winGroup2 = window.open(group2Url, '_blank');
+                        if (winGroup2) {
+                            winGroup2.focus();
+                        } else {
+                            alert('Pop-up blocker may prevent opening the second link. Please check your browser settings.');
+                        }
+                    } else {
+                        alert('Corresponding link from group2 not found.');
+                    }
+                }
+
+                // Function to find the corresponding link from group2
+                function findCorrespondingLinkGroup2(title) {
+                    var correspondingLinkGroup2 = null;
+                    var longestCommonSubstring = '';
+
+                    // Iterate over group2 to find the longest common substring
+                    $.each(group2, function (i, val) {
+                        var commonSubstring = getCommonSubstring(title, val);
+                        if (commonSubstring.length > longestCommonSubstring.length) {
+                            longestCommonSubstring = commonSubstring;
+                            correspondingLinkGroup2 = val;
+                        }
+                    });
+
+                    return correspondingLinkGroup2;
+                }
+
+                // Function to get a common substring between two strings
+                function getCommonSubstring(str1, str2) {
+                    var result = '';
+                    for (var i = 0; i < Math.min(str1.length, str2.length); i++) {
+                        if (str1[i] === str2[i]) {
+                            result += str1[i];
+                        } else {
+                            break;
+                        }
+                    }
+                    return result;
+                }
+
+                // Function to get a random title from an array of titles
+                function getRandomTitle(titles) {
+                    return titles[Math.floor(Math.random() * titles.length)];
+                }
+
+                // Ensure group1 and group2 are populated before executing the code to prevent duplicate calls.
+                if (group1.length > 0 && group2.length > 0) {
+                    // Reminder for future
+                    let reminder = "Reminder for future";
+                    console.log(reminder);
+                }
+
+
+            }
+
+            // Temporarily unavailable sources
+            // const backingImprovUrl = 'https://getpantry.cloud/apiv1/pantry/2c35a273-cff0-4ba1-8730-7215417754f3/basket/backingImprov';
+            // const scaleImprovUrl = 'https://getpantry.cloud/apiv1/pantry/2c35a273-cff0-4ba1-8730-7215417754f3/basket/scaleImprov';
+
+            // New sources
+            const backingImprovUrl = 'https://api.npoint.io/87d3d297426401d0909c';
+            const scaleImprovUrl = 'https://api.npoint.io/6649b0f4948c61b01f55';
+
+            // Fetch data from the first source using Ajax and process it
+            fetchDataWithAjax(backingImprovUrl,
+                processVideoData,
+                function (error) {
+                    console.log('Error fetching data for backingImprov', error);
+                }
+            );
+
+            // Fetch data from the second source using Ajax and process it together
+            fetchDataWithAjax(scaleImprovUrl,
+                processVideoData,
+                function (error) {
+                    console.log('Error fetching data for scaleImprov', error);
+                }
+            );
+
+        });
+    </script>
+</body>
+
+</html>

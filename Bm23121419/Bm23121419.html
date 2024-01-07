@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="otherStyles.css">
+    <link rel="stylesheet" href="black.css">
+    <link rel="stylesheet" href="coral.css">
+    <link rel="stylesheet" href="yellow.css">
+    <link rel="stylesheet" href="red.css">
+    <link rel="stylesheet" href="v2_otherStyles.css">
+    <link rel="stylesheet" href="v2_black.css">
+    <link rel="stylesheet" href="v2_coral.css">
+    <link rel="stylesheet" href="v2_yellow.css">
+    <link rel="stylesheet" href="v2_red.css">
+    <link rel="stylesheet" href="common.css">
+</head>
+
+<body>
+    <!-- comment this temporary dev mode download button at the time of production -->
+    <!-- <button id="download">Download</button> -->
+
+    <div id="grid"></div>
+    <div id="v2_grid"></div>
+    <div class="center-div" id="durationButtons"></div>
+    <div class="v2_center-div" id="v2_durationButtons"></div>
+    <!-- New div for the buttons with adjusted margin-top -->
+    <div id="buttonContainer" class="text-center">
+        <!-- New buttons for grid visibility with the custom class -->
+        <button id="toggleGrid" class="custom-button" onclick="toggleGridVisibility('#grid')">Toggle Top Grid
+            Visibility</button>
+        <button id="toggleV2Grid" class="custom-button" onclick="toggleGridVisibility('#v2_grid')">Toggle Bottom Grid
+            Visibility</button>
+    </div>
+    <div id="refreshButtonContainer" class="text-center">
+        <button id="refreshButton" class="custom-button red-button" onclick="refreshPageAndSimulateClick()"> R </button>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // Version 1 code
+            // ... (omitted for brevity)
+            // Create buttons for durationInSeconds
+            for (var i = 3; i <= 25; i++) {
+                $('#durationButtons').append('<button class="btn btn-custom" onclick="setDuration(' + i + ')">' + i + '</button>');
+            }
+            // Function to set durationInSeconds and restart the code
+            window.setDuration = function (seconds) {
+                window.durationInSeconds = seconds;
+                window.intervalTime = seconds * 1000;
+                if (window.interval) {
+                    clearInterval(window.interval);
+                }
+                window.currentStep = 0;  // Reset currentStep to zero
+                window.interval = setInterval(triggerHover, window.intervalTime);
+                triggerHover();  // Restart the code immediately
+            }
+            var rows = 7;
+            var cols = 29;
+            var grid = "";
+            var buttonTexts = ["7", "8", "9", "10", "11", "12", "13", "14", "15", "10", "7", "8", "9", "10", "11", "12", "13", "14", "15", "20", "7", "8", "9", "10", "11", "12", "13", "14", "15", "29", "30"];
+            for (var i = 31; i <= 202; i++) {
+                buttonTexts.push(i.toString());
+            }
+            for (var i = 0; i < rows; i++) {
+                for (var j = 0; j < cols; j++) {
+                    var buttonIndex = i * cols + j;
+                    grid += '<button class="btn btn-primary grid-button button-' + buttonIndex + '">' + buttonTexts[buttonIndex] + '</button>';
+                }
+                grid += '<br>';
+            }
+            $('#grid').html(grid);
+            // Define the steps to hover
+            var arr1 = [86, 56, 54];
+            var arr2 = [44, 42, 71];
+            var arr3 = [32, 61, 58];
+            var arr4 = [86, 114, 111];
+            var arr5 = [71, 101, 99];
+            var arr6 = [116, 87, 89];
+            var arr7 = [170, 141, 143];
+            var arr8 = [99, 101, 131];
+            var arr9 = [116, 145, 147];
+            var arr10 = [170, 199, 201];
+            var arr11 = [157, 160, 131];
+            var arr12 = [177, 147, 145];
+
+            var stepsToHover = [
+                arr1, arr2, arr3, arr4, arr5, arr6, arr5, arr4, arr3, arr4, arr5, arr6,
+                arr7, arr8, arr7, arr6, arr5, arr6, arr7, arr8, arr9, arr10, arr9, arr8,
+                arr7, arr8, arr9, arr10, arr11, arr12, arr11, arr10, arr9, arr10, arr11,
+                arr12, arr1, arr2, arr1, arr12, arr11, arr12, arr1, arr2, arr3, arr4, arr3, arr2
+            ];
+
+            // var stepsToHover = [arr1, arr2, arr3, arr4, arr5, arr6, arr7, arr8, arr9, arr10, arr11, arr12];
+
+            window.currentStep = 0;
+            function triggerHover() {
+                // Check if the grid is visible before applying changes
+                if ($('#grid').is(':visible')) {
+                    $('.grid-button').removeClass('darkBlue medBlue lightBlue');
+                    var buttonsToHover = stepsToHover[window.currentStep];
+                    var colors = shuffle(['darkBlue', 'medBlue', 'lightBlue']);
+                    buttonsToHover.forEach(function (buttonIndex, index) {
+                        var colorClass = colors[index];
+                        $('.button-' + buttonIndex).addClass(colorClass);
+                    });
+                    window.currentStep = (window.currentStep + 1) % stepsToHover.length;
+                }
+            }
+            function shuffle(array) {
+                var currentIndex = array.length, randomIndex;
+                while (currentIndex != 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+                    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                }
+                return array;
+            }
+            triggerHover();
+            window.durationInSeconds = 2;
+            window.intervalTime = window.durationInSeconds * 1000;
+            window.interval = setInterval(triggerHover, window.intervalTime);
+            // Version 2 code
+            // ... (omitted for brevity)
+            var v2_rows = 4;
+            var v2_cols = 16;
+            var v2_grid = "";
+            var v2_buttonTexts = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
+            for (var i = 18; i <= 65; i++) {
+                v2_buttonTexts.push(i.toString());
+            }
+            for (var i = 0; i < v2_rows; i++) {
+                for (var j = 0; j < v2_cols; j++) {
+                    var v2_buttonIndex = v2_buttonTexts[i * v2_cols + j];
+                    v2_grid += '<button class="btn btn-primary v2_grid-button v2_button-' + v2_buttonIndex + '">' + v2_buttonTexts[i * v2_cols + j] + '</button>';
+                }
+                v2_grid += '<br>';
+            }
+            $('#v2_grid').html(v2_grid);
+            // Function to set durationInSeconds and restart the code
+            window.v2_setDuration = function (seconds) {
+                window.v2_durationInSeconds = seconds;
+                window.v2_intervalTime = seconds * 1000;
+                if (window.v2_interval) {
+                    clearInterval(window.v2_interval);
+                }
+                window.v2_currentStep = 0;  // Reset currentStep to zero
+                window.v2_interval = setInterval(v2_triggerHover, window.v2_intervalTime);
+                v2_triggerHover();  // Restart the code immediately
+            }
+            var v2_arr1 = [30, 64, 46, 47];
+            var v2_arr2 = [30, 44, 46, 47];
+            var v2_arr3 = [59, 44, 25, 26];
+            var v2_arr4 = [39, 23, 25, 26];
+            var v2_arr5 = [39, 23, 54, 55];
+            var v2_arr6 = [39, 52, 54, 55];
+            var v2_arr7 = [18, 52, 34, 35];
+
+            var v2_stepsToHover = [
+                v2_arr1, v2_arr2, v2_arr3, v2_arr4, v2_arr5, v2_arr6, v2_arr7, v2_arr6, v2_arr5, v2_arr4, v2_arr3, v2_arr2
+            ];
+            window.v2_currentStep = 0;
+            function v2_triggerHover() {
+                // Check if the v2_grid is visible before applying changes
+                if ($('#v2_grid').is(':visible')) {
+                    $('.v2_grid-button').removeClass('v2_darkBlue v2_lightCoral v2_medBlue v2_lightBlue');
+                    var v2_buttonsToHover = v2_stepsToHover[window.v2_currentStep];
+                    var colors = ['v2_lightBlue', 'v2_lightCoral', 'v2_medBlue', 'v2_darkBlue'];
+                    v2_buttonsToHover.forEach(function (buttonIndex, index) {
+                        var colorClass = colors[index];
+                        $('.v2_button-' + buttonIndex).addClass(colorClass);
+                    });
+                    window.v2_currentStep = (window.v2_currentStep + 1) % v2_stepsToHover.length;
+                }
+            }
+            v2_triggerHover();
+            window.v2_durationInSeconds = 2;
+            window.v2_intervalTime = window.v2_durationInSeconds * 1000;
+            window.v2_interval = setInterval(v2_triggerHover, window.v2_intervalTime);
+            // Create buttons for durationInSeconds
+            for (var i = 3; i <= 25; i++) {
+                $('#v2_durationButtons').append('<button class="btn btn-custom" onclick="v2_setDuration(' + i + ');">' + i + '</button>');
+            }
+            // Add this JavaScript code within the <script> tag, after your existing code
+        });
+
+        function reduceFrequencyV2() {
+            if (typeof window.counter === 'undefined') {
+                window.counter = 0;
+            }
+
+            window.counter++;
+
+            if (window.counter % 2 === 0) {
+                window.v2_currentStep = Math.max(window.v2_currentStep - 1, 0);
+            }
+        }
+        // Function to toggle grid visibility
+
+        function toggleGridVisibility(gridId) {
+            var grid = $(gridId);
+            grid.toggleClass('invisible'); // Add a class to hide or show the grid
+            // If the grid is not invisible after toggling, perform the new logic
+            if (!grid.hasClass('invisible')) {
+                if (gridId === "#grid") {
+                    // Decrease window.currentStep by 1, but not less than 0
+                    window.currentStep = Math.max(window.currentStep - 1, 0);
+                    console.log("first", window.currentStep)
+                } else if (gridId === "#v2_grid") {
+                    // Decrease window.v2_currentStep by 1, but not less than 0
+                    reduceFrequencyV2();
+                    console.log("second", window.v2_currentStep)
+                }
+            }
+        }
+        // id of two buttons
+        // toggleGrid
+        // toggleV2Grid
+        $(document).ready(function () {
+            $("#toggleV2Grid").click();
+        });
+        // function abc does the togglin visibilty animation by programmatically calling the toggle buttons in a pattern.
+        function abc() {
+            // Your function logic here
+            $("#toggleGrid").click();
+            $("#toggleV2Grid").click();
+        }
+        function callAbcInPattern() {
+            topGridTiming = Number("14000");
+            bottomGridTiming = Number("6000");
+            setTimeout(() => {
+                abc();
+                setTimeout(() => {
+                    abc();
+                    callAbcInPattern();
+                }, bottomGridTiming);
+            }, topGridTiming);
+        }
+        callAbcInPattern();
+// Function to refresh the page and simulate button clicks
+function refreshPageAndSimulateClick() {
+            console.log("Refreshing page...");
+
+            // Store information about button clicks in local storage
+            localStorage.setItem('simulateButtonClick', 'true');
+
+            // Refresh the page
+            location.reload();
+        }
+
+        $(document).ready(function () {
+            // Your existing document ready code here
+
+            // Check if a button click simulation is requested
+            var simulateButtonClick = localStorage.getItem('simulateButtonClick');
+            if (simulateButtonClick === 'true') {
+                // Reset the local storage flag
+                localStorage.removeItem('simulateButtonClick');
+
+                // Simulate click on the specified buttons after a short delay
+                setTimeout(function () {
+                    // Simulate click on the setDuration(7) button
+                    var setDurationButton = document.querySelector('button[onclick="setDuration(7)"]');
+                    if (setDurationButton) {
+                        setDurationButton.click();
+                        console.log("Clicked on setDuration(7) button");
+                    } else {
+                        console.error("setDuration(7) button not found");
+                    }
+
+                    // Simulate click on the v2_setDuration(5) button
+                    var v2SetDurationButton = document.querySelector('button[onclick="v2_setDuration(5);"]');
+                    if (v2SetDurationButton) {
+                        v2SetDurationButton.click();
+                        console.log("Clicked on v2_setDuration(5) button");
+                    } else {
+                        console.error("v2_setDuration(5) button not found");
+                    }
+                }, 500);
+            }
+        });
+
+
+        // comment this developer mode related to download button ( button number printer )
+        // $(document).ready(function () {
+        //     var values = [];
+        //     $('button').click(function () {
+        //         var text = $(this).text();
+        //         values.push(text);
+        //     });
+        //     $('#download').click(function () {
+        //         var blob = new Blob([values.join(',')], { type: 'text/plain' });
+        //         var url = URL.createObjectURL(blob);
+        //         var a = document.createElement('a');
+        //         a.href = url;
+        //         a.download = 'values.txt';
+        //         document.body.appendChild(a);
+        //         a.click();
+        //         document.body.removeChild(a);
+        //     });
+        // });
+
+
+
+    </script>
+</body>
+
+</html>

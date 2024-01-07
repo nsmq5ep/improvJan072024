@@ -1,0 +1,1 @@
+Run('wscript.exe "D:\CODING_BACKUP\javascript work\newScripts\bookmarks_fenix\replaceScript\replacebkms.vbs"')

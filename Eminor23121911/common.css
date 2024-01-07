@@ -1,0 +1,44 @@
+
+
+/* Add your custom button styles here */
+.custom-button {
+    background-color: #007bff !important;
+    color: #ffffff !important;
+    padding: 10px 20px !important;
+    margin: 5px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+}
+
+.custom-button:hover {
+    background-color: #0056b3 !important;
+}
+
+/* New style for the container div */
+#buttonContainer {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Add this line */
+    flex-wrap: nowrap; /* Add this line to prevent wrapping */
+}
+
+/* Add this CSS rule to your existing styles or in a separate CSS file */
+.invisible {
+    display: none !important;
+}
+
+#refreshButtonContainer{
+    
+    position: absolute;
+    top: 85%;
+    left: 68%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Add this line */
+    flex-wrap: nowrap; /* Add this line to prevent wrapping */
+}
+#refreshButton{
+    background-color:red!important;
+}

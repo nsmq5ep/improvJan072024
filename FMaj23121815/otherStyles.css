@@ -1,0 +1,42 @@
+
+.grid-button {
+    width: 50px; /* Adjust this value according to your needs */
+}
+
+/* Add a style for the hover effect */
+/* Add a style for the hover effect */
+.darkBlue {
+    background-color: #000080 !important; /* Dark Blue */
+    color: #FFFFFF !important; /* White text */
+}
+
+.medBlue {
+    background-color: #4682B4 !important; /* Medium Blue */
+    color: #FFFFFF !important; /* White text */
+}
+
+.lightBlue {
+    background-color: #B0E0E6 !important; /* Light Blue */
+    color: #000000 !important; /* Black text */
+}
+.center-div {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Add this line */
+    flex-wrap: nowrap; /* Add this line to prevent wrapping */
+}
+
+.btn-custom:nth-child(odd) {
+    /* Add your custom button styles here */
+    background-color: #FF7F50; /* Coral */
+    color: white;
+}
+
+.btn-custom:nth-child(even) {
+    /* Add your custom button styles here */
+    background-color: #FFD700; /* Gold */
+    color: rgb(185, 13, 42);
+}
+

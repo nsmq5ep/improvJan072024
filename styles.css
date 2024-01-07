@@ -1,0 +1,91 @@
+:root {
+   --rem: 16;
+            --bs-blue: #007bff;
+            --bs-indigo: #6610f2;
+            --bs-purple: #696cff;
+            --bs-pink: #e83e8c;
+            --bs-red: #ff3e1d;
+            --bs-orange: #fd7e14;
+            --bs-yellow: #ffab00;
+            --bs-green: #71dd37;
+            --bs-teal: #20c997;
+            --bs-cyan: #03c3ec;
+            --bs-white: #fff;
+            --bs-gray-dark: rgba(67,89,113,.8);
+            --bs-gray-25: rgba(67,89,113,.025);
+            --bs-gray-50: rgba(67,89,113,.05);
+            --bs-primary: #696cff;
+            --bs-secondary: #8592a3;
+            --bs-success: #71dd37;
+            --bs-info: #03c3ec;
+            --bs-warning: #ffab00;
+            --bs-danger: #ff3e1d;
+            --bs-light: #fcfdfd;
+            --bs-dark: #233446;
+            --bs-gray: rgba(67,89,113,.1);
+            --bs-primary-rgb: 105,108,255;
+            --bs-secondary-rgb: 133,146,163;
+            --bs-success-rgb: 113,221,55;
+            --bs-info-rgb: 3,195,236;
+            --bs-warning-rgb: 255,171,0;
+            --bs-danger-rgb: 255,62,29;
+            --bs-light-rgb: 252,253,253;
+            --bs-dark-rgb: 35,52,70;
+            --bs-gray-rgb: 67,89,113;
+            --bs-white-rgb: 255,255,255;
+            --bs-black-rgb: 67,89,113;
+            --bs-body-color-rgb: 105,122,141;
+            --bs-body-bg-rgb: 245,245,249;
+            --bs-font-sans-serif: "Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+            --bs-font-monospace: "SFMono-Regular",Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+            --bs-gradient: linear-gradient(180deg,hsla(0,0%,100%,.15),hsla(0,0%,100%,0));
+            --bs-root-font-size: 16px;
+            --bs-body-font-family: var(--bs-font-sans-serif);
+            --bs-body-font-size: 0.9375rem;
+            --bs-body-font-weight: 400;
+            --bs-body-line-height: 1.53;
+            --bs-body-color: #697a8d;
+            --bs-body-bg: #f5f5f9;
+            color-scheme: light;
+            --default-text-color: #364a63;
+            --primary-text-color: #8094ae;
+            --result-link-hover: #106;
+            --input-placeholder: #8094ae;
+            --primary-background-color: #e5e8ff;
+            --primary-background-hover-color: #d9ddfb;
+            --primary-identity-color: #5f2eea;
+            --primary-identity-hover-color: #481ebf;
+            --primary-border-color: #c1c8ff;
+            --container-bg: #f5f6fa;
+            --search-form-border-radius: 25px;
+            --sidebar-width: 60%;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            font-size: var(--bs-body-font-size);
+            font-weight: var(--bs-body-font-weight);
+            text-align: var(--bs-body-text-align);
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            font-family: Roboto,sans-serif;
+            box-sizing: border-box;
+            display: block;
+            flex-shrink: 0;
+            background-color: var(--primary-identity-color);
+            color: #fff;
+            line-height: 2.467rem;
+            transition: .2s;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.footer-links a:hover {
+    color: #ccc;
+}
+
+.copyright {
+    color: #fff;
+}

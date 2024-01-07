@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Link</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Add Link to HTML File</h1>
+        <form id="add-link-form" class="mt-4">
+            <div class="form-group">
+                <label for="file-upload">Select HTML File:</label>
+                <input type="file" id="file-upload" class="form-control-file" accept=".html">
+            </div>
+            <div class="form-group">
+                <label for="link-url">Link URL:</label>
+                <input type="text" id="link-url" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="link-name">Link Name:</label>
+                <input type="text" id="link-name" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Link</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#add-link-form').on('submit', function(e) {
+                e.preventDefault();
+
+                var fileInput = $('#file-upload')[0];
+                var url = $('#link-url').val();
+                var name = $('#link-name').val();
+
+                if (fileInput.files.length > 0 && url && name) {
+                    var file = fileInput.files[0];
+                    var reader = new FileReader();
+
+
+                    reader.onload = function(e) {
+                        var content = e.target.result;
+                        var newLink = '<a href="' + url + '" title="' + name + '">' + name + '</a>';
+                        content = content.replace('</div>', newLink + '</div>');
+
+                        var blob = new Blob([content], {type: 'text/html'});
+                        var downloadUrl = URL.createObjectURL(blob);
+
+                        var downloadLink = document.createElement('a');
+                        downloadLink.href = downloadUrl;
+                        downloadLink.download = file.name;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                    };
+
+                    reader.readAsText(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

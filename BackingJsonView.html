@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery API Fetch</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2>Video Data</h2>
+    <button id="sortButton">Sort by Title</button>
+    <button id="idButton">Display IDs and Titles</button>
+    <div id="videoData"></div>
+
+    <script>
+        var videoData = [];
+
+        $(document).ready(function() {
+            $.getJSON('https://getpantry.cloud/apiv1/pantry/2c35a273-cff0-4ba1-8730-7215417754f3/basket/backingImprov', function(data) {
+                videoData = data.videos;
+                renderData(videoData, false);
+            });
+
+            $('#sortButton').click(function() {
+                videoData.sort(function(a, b) {
+                    return a.title.localeCompare(b.title);
+                });
+                renderData(videoData, false);
+            });
+
+            $('#idButton').click(function() {
+                renderData(videoData, true);
+            });
+        });
+
+        function renderData(data, idOnly) {
+            var items = [];
+            $.each(data, function(key, val) {
+                var videoId = getVideoId(val.url);
+                items.push("<li id='" + key + "'> Title: " + val.title + (idOnly ? ", Video ID: " + videoId : ", URL: " + val.url) + "</li>");
+            });
+
+            $("#videoData").empty().append($("<ul/>", {
+                "class": "video-list",
+                html: items.join("")
+            }));
+        }
+
+        function getVideoId(url) {
+            var videoId = "";
+            if (url.includes("youtu.be")) {
+                videoId = url.split("/").pop();
+            } else {
+                videoId = new URL(url).searchParams.get('v');
+            }
+            return videoId;
+        }
+    </script>
+</body>
+</html>

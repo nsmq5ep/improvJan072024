@@ -1,0 +1,56 @@
+
+.v2_grid-button {
+    width: 91px; /* Adjust this value according to your needs */
+}
+
+/* Add a style for the hover effect */
+/* Add a style for the hover effect */
+.v2_darkBlue {
+    background-color: #000080 !important; /* Dark Blue */
+    color: #FFFFFF !important; /* White text */
+}
+
+.v2_medBlue {
+    background-color: #4682B4 !important; /* Medium Blue */
+    color: #FFFFFF !important; /* White text */
+}
+
+.v2_lightBlue {
+    background-color: #B0E0E6 !important; /* Light Blue */
+    color: #000000 !important; /* Black text */
+}
+
+.v2_lightCoral {
+    background-color: lightcoral !important;;
+    color:red;
+    font-weight: 900;
+}
+
+#v2_grid {
+    width: 1470px!important;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.v2_center-div {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Add this line */
+    flex-wrap: nowrap; /* Add this line to prevent wrapping */
+}
+
+.btn-custom:nth-child(odd) {
+    /* Add your custom button styles here */
+    background-color: #FF7F50; /* Coral */
+    color: white;
+}
+
+.btn-custom:nth-child(even) {
+    /* Add your custom button styles here */
+    background-color: #FFD700; /* Gold */
+    color: rgb(185, 13, 42);
+}
